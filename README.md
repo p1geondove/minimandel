@@ -1,4 +1,4 @@
-#Mandelbrot set viewer on python
-#really simple and badly optimized
-#<100 lines
-#only using pygame and builtins
+Mandelbrot set viewer on python\n
+really simple and badly optimized\n
+<100 lines\n
+only using pygame and builtins\n
