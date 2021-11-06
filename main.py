@@ -1,8 +1,8 @@
 import pygame, sys, math
 from pygame.draw import rect
-from pygame.constants import KEYDOWN, K_ESCAPE, MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION, RESIZABLE, K_UP, K_DOWN
+from pygame.constants import KEYDOWN, K_ESCAPE, MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION, RESIZABLE
 
-Vadd = lambda a,b : (a[0]+b[0],a[1]+b[1])   #add/subtract/multiply/divide 2 tuples like numpay arrays
+Vadd = lambda a,b : (a[0]+b[0],a[1]+b[1])   #add/subtract/multiply/divide 2 tuples like numpy arrays
 Vsub = lambda a,b : (a[0]-b[0],a[1]-b[1])
 Vmul = lambda a,b : (a[0]*b[0],a[1]*b[1])
 Vdiv = lambda a,b : (a[0]/b[0],a[1]/b[1])
@@ -29,7 +29,7 @@ def hanlde_input(event, mpressed, viewoffset, scale, res):
             sys.exit()
 
     elif event.type == MOUSEBUTTONDOWN: #when you press a button or scroll
-        res = 100
+        res = 50    #resets the resolution to 50 screen pixels per pixel
         mpos = pygame.mouse.get_pos()
         if event.button == 1: #left mousebutton
             mpressed = True
@@ -48,7 +48,7 @@ def hanlde_input(event, mpressed, viewoffset, scale, res):
 
     elif event.type == MOUSEMOTION:   #when you move the mouse
         if mpressed:
-            res = 100   #reset the resolution for the new frame
+            res = 20   #reset the resolution for the new frame
             viewoffset = Vadd(viewoffset,event.rel) #recalculate the window offset
 
     return (mpressed,list(viewoffset),scale, res)
@@ -71,7 +71,7 @@ def run():
                 px = (x-viewoffset[0])/scale    #get complex value of pixel
                 py = (y-viewoffset[1])/scale
                 pixelpos = complex(px,py)       
-                maxiter = math.log2(scale)     #"dynamic iterations" kinda works
+                maxiter = math.log2(scale)**2     #"dynamic iterations" kinda works
                 color = get_pixel_iters(pixelpos,maxiter+100)*2%255 #amount of iterations % 255 in greyscale
                 rect(
                     surface=win,
@@ -84,7 +84,7 @@ def run():
                 winsize = win.get_size()
             pygame.display.flip()
 
-        clock.tick(160)
+        clock.tick(30)
         res -= res//2   #after every completed frame double the resolution
         if res < 1: res = 1
 
